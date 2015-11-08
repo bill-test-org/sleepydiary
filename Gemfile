@@ -35,6 +35,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 ## sleepy-diary stuff ##
 gem 'devise'
+gem 'backbone-on-rails'
 ## end sleepy-diary ##
 
 
