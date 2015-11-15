@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  
-  resources :entries, only: [:index, :destroy, :update, :create]
 
+  namespace :api do
+    resources :entries, only: [:index, :destroy, :update, :create]
+  end  
   
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
