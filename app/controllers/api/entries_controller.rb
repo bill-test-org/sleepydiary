@@ -3,15 +3,17 @@ class Api::EntriesController < ApplicationController
   respond_to :json
   
   def create
-    respond_with(Entry.create(entry_params))
+    entry = Entry.create(entry_params)
+    respond_with(entry, location: nil) # tries to redirect which we dont want
   end
 
   def update
-    respond_with(Entry.update(entry_params))
+    entry = Entry.update(params[:id], entry_params)
+    respond_with(entry)
   end
 
   def destroy
-    respond_with(Entry.find(entry_params[:id]).destroy)
+    respond_with(Entry.find(params[:id]).destroy)
   end
 
   def index
@@ -21,7 +23,8 @@ class Api::EntriesController < ApplicationController
 private
 
   def entry_params
-    params.require(:entry).permit(:sleep_rating, :bed_time, :wake_time)
+    Rails.logger.info "BILL PARAMS = #{params.inspect}"
+    params.permit(:sleep_rating, :bed_time, :wake_time)
   end
 
 end
