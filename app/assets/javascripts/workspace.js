@@ -4,7 +4,9 @@ window.Workspace = {
   Views: {},
   Routers: {},
   initialize: function() {
-    // TODO
+    var router = new Workspace.Routers.Entries();
+    Backbone.history.start();
+
   }
 };
 
