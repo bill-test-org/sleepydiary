@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151109033937) do
+ActiveRecord::Schema.define(version: 20151119035443) do
 
   create_table "entries", force: :cascade do |t|
     t.integer  "sleep_rating", limit: 1
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20151109033937) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.boolean  "guest"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
