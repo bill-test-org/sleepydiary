@@ -8,8 +8,16 @@ Workspace.Views.EntriesIndex = Backbone.View.extend({
   },
 
   render: function(){
-    this.$el.html( this.template({ entries : this.collection }) );
+    this.$el.html( this.template() );
+    this.collection.each(this.appendEntry);
     return this;
+  },
+
+  appendEntry: function(entry) {
+    console.log('append entry ' + entry.id);
+    var view = new Workspace.Views.Entry({model: entry});
+    $('#entries').append(view.render().el);
+    //return this;
   }
 
 });
