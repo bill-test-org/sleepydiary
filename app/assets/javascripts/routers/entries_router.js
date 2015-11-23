@@ -6,7 +6,7 @@ Workspace.Routers.Entries = Backbone.Router.extend({
 
   initialize: function() {
     this.collection = new Workspace.Collections.Entries();
-    this.collection.fetch({reset: true});
+    this.collection.fetch();
   },
 
   index: function() {

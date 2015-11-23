@@ -14,7 +14,7 @@ Workspace.Views.Entry = Backbone.View.extend({
   },
 
   render: function(){
-    console.log('Bill inside entry.render');
+    console.log('Bill inside entry.render ' + this.model.id);
     this.$el.html( this.template({ entry : this.model }) );
     return this;
   },
