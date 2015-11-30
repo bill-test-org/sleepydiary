@@ -35,13 +35,15 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise'
 gem 'backbone-on-rails'
 gem 'pickadate-rails'
+gem 'active_model_serializers'
+gem 'momentjs-rails'
 ## end sleepy-diary ##
 
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  
+
   # Use sqlite3 as the database for Active Record only in test and development
   gem 'sqlite3'
 end

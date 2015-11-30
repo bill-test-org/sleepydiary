@@ -6,17 +6,17 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 Entry.create(
-  sleep_rating: 5, 
-  bed_time:   DateTime.parse("09/01/2009 23:00"), 
+  sleep_rating: 5,
+  bed_time:   DateTime.parse("09/01/2009 23:00"),
   wake_time:  DateTime.parse("09/02/2009 09:00"),
   )
 Entry.create(
-  sleep_rating: 5, 
-  bed_time:   DateTime.parse("09/02/2009 23:00"), 
-  wake_time:  DateTime.parse("09/03/2009 09:00"),
+  sleep_rating: 5,
+  bed_time:   DateTime.parse("02/11/2009 02:01 Central Time (US & Canada)"),
+  wake_time:  DateTime.parse("03/11/2009 02:01 Central Time (US & Canada)"),
   )
 Entry.create(
-  sleep_rating: 5, 
-  bed_time:   DateTime.parse("09/03/2009 23:00"), 
-  wake_time:  DateTime.parse("09/04/2009 09:00"),
+  sleep_rating: 5,
+  bed_time:   DateTime.parse("09/03/2015 04:00"),
+  wake_time:  DateTime.parse("09/04/2015 04:00"),
   )

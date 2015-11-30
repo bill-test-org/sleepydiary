@@ -4,26 +4,28 @@ Workspace.Views.CreateEntry = Backbone.View.extend({
 
   events: {
     //'focus #datetime' : 'focusDateTime',
-    'click #bed_time' : 'clickDateTime',
-    'click #wake_time': 'clickDateTime' 
+    'click #new_entry_bed_time' : 'clickDateTime',
+    'click #new_entry_wake_time': 'clickDateTime'
   },
 
   initialize: function(){
-    
+
   },
 
   render: function(){
     this.$el.append( this.template() );
 
-    // HACK - pickadate.js allows you to specify a 'container'
+    // HACK - pickadate.js allows you to specify a 'container', but when i do
+    // and i use the hidden html5 flag, the popup doesnt show properly (probably
+    // because it also gets hidden)
     this.hiddenDate = this.$el.find('#date').hide();
     this.hiddenTime = this.$el.find('#time').hide();
 
-    this.$bedTime = this.$el.find('#bed_time');
-    this.$wakeTime = this.$el.find('#wake_time');
+    this.$bedTime = this.$el.find('#new_entry_bed_time');
+    this.$wakeTime = this.$el.find('#new_entry_wake_time');
     this.datePicker = this.initDatePicker();
     this.timePicker = this.initTimePicker();
-    
+
     return this;
   },
 

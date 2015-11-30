@@ -49,5 +49,11 @@ class ApplicationController < ActionController::Base
     session[:guest_user_id] = u.id
     u
   end
-  
+
+  # override active_model_serializers gem
+  def default_serializer_options
+    # remove the  gem root node that gets added by default
+    {root: false}
+  end
+
 end

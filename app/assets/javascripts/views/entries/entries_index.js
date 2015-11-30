@@ -3,6 +3,7 @@ Workspace.Views.EntriesIndex = Backbone.View.extend({
   template: JST['entries/index'],
 
   events: {
+    // may want to refactor this into the create_entry view...
     'click #create_new_entry' : 'create'
   },
 
