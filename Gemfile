@@ -37,6 +37,7 @@ gem 'backbone-on-rails'
 gem 'pickadate-rails'
 gem 'active_model_serializers'
 gem 'momentjs-rails'
+gem 'twitter-bootstrap-rails'
 ## end sleepy-diary ##
 
 
