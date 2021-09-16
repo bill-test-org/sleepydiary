@@ -1,0 +1,9 @@
+---
+key_groups:
+  developers:
+    - foo@bar.local
+    - another@wut.com
+  viewers:
+    - viewer1@aol.com
+    - viewer2@aol.com
+
