@@ -1,7 +1,13 @@
 name: Start SOCKS Access Pull Request
 on:
-  repository_dispatch:
-    types: [start-socks-pr]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Issue Number'
+        required: true
+        default: 9999
+  # repository_dispatch:
+  #   types: [start-socks-pr]
 
 env:
   REPO: va.gov-team
@@ -18,10 +24,11 @@ jobs:
     steps:
       - name: Run Issue form parser
         id: parse
-        uses: peter-murray/issue-forms-body-parser@v1.1.0
+        uses: omgitsbillryan/issue-forms-body-parser@659eb2c1b44efdbae04268844802f59924590396
         with:
-          issue_id: ${{ github.event.client_payload.issue_number }}
+          issue_id: #${{ github.event.client_payload.issue_number }}
           separator: '###'
+          repository: department-of-veterans-affairs/va.gov-team
           label_marker_start: " "
           label_marker_end: "\\n"
 
