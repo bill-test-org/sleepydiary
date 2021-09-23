@@ -1,0 +1,44 @@
+name: Start SOCKS Access Pull Request
+on:
+  repository_dispatch:
+    types: [start-socks-pr]
+
+jobs:
+  say_hello:
+    steps:
+      - run: echo "hello there"
+
+  # start_pull_request:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout The Github Repository
+  #       uses: actions/checkout@v2
+
+  #     - name: Update config.yml
+  #       uses: mikefarah/yq@master
+  #       with:
+  #         cmd: yq e '.key_groups.${{ env.type }} += ["${{ env.email }}"]' --inplace ansible/global/config.yml
+  #       env:
+  #         email: ${{ github.event.client_payload.email }}
+  #         type: ${{ github.event.client_payload.type }}
+
+  #     - name: Create /authorized_keys SSH Key File
+  #       uses: "finnp/create-file-action@master"
+  #       env:
+  #         FILE_NAME: "ansible/roles/dsva-config/files/authorized_keys/${{ github.event.client_payload.email }}"
+  #         FILE_DATA: "${{ github.event.client_payload.ssh_key }}"
+
+  #     - name: Create Pull Request
+  #       id: cpr
+  #       uses: peter-evans/create-pull-request@v3
+  #       with:
+  #         token: ${{ steps.get_token.outputs.app_token }}
+  #         commit-message: New SOCKS ssh key
+  #         branch: "socks-${{ steps.split.outputs._0 }}"
+  #         title: "[Automated SOCKS Access] ${{ steps.split.outputs._0 }}"
+  #         body: |
+  #           An automated SOCKS Access Request
+
+  #           - ${{ github.event.issue.html_url }}
+
+  #           Triggered by: @${{ github.event.comment.user.login }} in [this comment](${{ github.event.comment.html_url }})
