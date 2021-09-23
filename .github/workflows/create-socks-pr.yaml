@@ -1,5 +1,6 @@
 name: Start SOCKS Access Pull Request
 on:
+  workflow_dispatch:
   repository_dispatch:
     types: [start-socks-pr]
 
