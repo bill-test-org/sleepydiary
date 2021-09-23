@@ -26,7 +26,7 @@ jobs:
         id: parse
         uses: omgitsbillryan/issue-forms-body-parser@659eb2c1b44efdbae04268844802f59924590396
         with:
-          issue_id: #${{ github.event.client_payload.issue_number }}
+          issue_id: ${{ github.event.inputs.issue_number }} #${{ github.event.client_payload.issue_number }}
           separator: '###'
           repository: department-of-veterans-affairs/va.gov-team
           label_marker_start: " "
