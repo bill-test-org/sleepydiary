@@ -22,6 +22,13 @@ jobs:
       type: 'developers' # TODO
       ssh_key: 'ssh-rsa ABCD1234 bill@aol.com' # TODO
     steps:
+      - name: Get Token from Github App
+        id: get_token
+        uses: machine-learning-apps/actions-app-token@master
+        with:
+          APP_PEM: ${{ secrets.GH_APP_PEM }}
+          APP_ID: ${{ secrets.GH_APP_ID }}
+
       - name: Run Issue form parser
         id: parse
         uses: omgitsbillryan/issue-forms-body-parser@659eb2c1b44efdbae04268844802f59924590396
@@ -29,6 +36,7 @@ jobs:
           issue_id: ${{ github.event.inputs.issue_number }} #${{ github.event.client_payload.issue_number }}
           separator: '###'
           repository: bill-test-org/sleepydiary
+          github_token: ${{ steps.get_token.outputs.app_token }}
           label_marker_start: " "
           label_marker_end: "\\n"
 
