@@ -6,6 +6,10 @@ on:
         description: 'Issue Number'
         required: true
         default: 9999
+      repository:
+        description: 'Repository'
+        required: true
+        default: t-lint
   # repository_dispatch:
   #   types: [start-socks-pr]
 
@@ -34,11 +38,11 @@ jobs:
         uses: omgitsbillryan/issue-forms-body-parser@659eb2c1b44efdbae04268844802f59924590396
         with:
           issue_id: ${{ github.event.inputs.issue_number }} #${{ github.event.client_payload.issue_number }}
+          repository: ${{ github.event.inputs.repository }}
           separator: '###'
-          repository: bill-test-org/sleepydiary
           github_token: ${{ steps.get_token.outputs.app_token }}
           label_marker_start: " "
-          label_marker_end: "\\n"
+          label_marker_end: "\\n\\n"
 
       - name: Show parsed data JSON
         run: |
