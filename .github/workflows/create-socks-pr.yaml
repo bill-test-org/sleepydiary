@@ -16,7 +16,7 @@ env:
 jobs:
   gather_inputs:
     runs-on: ubuntu-latest
-    if: github.event.client_payload.issue_number != ''
+    # if: github.event.client_payload.issue_number != ''
     outputs:
       email: bill@aol.com # TODO
       type: 'developers' # TODO
