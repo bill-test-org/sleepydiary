@@ -1,19 +1,44 @@
 name: Start SOCKS Access Pull Request
 on:
-  workflow_dispatch:
   repository_dispatch:
     types: [start-socks-pr]
 
-jobs:
-  say_hello:
-    steps:
-      - run: echo "hello there"
+env:
+  REPO: va.gov-team
+  REO_OWNER: department-of-veterans-affairs
 
-  # start_pull_request:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout The Github Repository
-  #       uses: actions/checkout@v2
+jobs:
+  gather_inputs:
+    runs-on: ubuntu-latest
+    if: github.event.client_payload.issue_number != ''
+    outputs:
+      email: bill@aol.com # TODO
+      type: 'developers' # TODO
+      ssh_key: 'ssh-rsa ABCD1234 bill@aol.com' # TODO
+    steps:
+      - name: Run Issue form parser
+        id: parse
+        uses: peter-murray/issue-forms-body-parser@v1.1.0
+        with:
+          issue_id: ${{ github.event.client_payload.issue_number }}
+          separator: '###'
+          label_marker_start: " "
+          label_marker_end: "\\n"
+
+      - name: Show parsed data JSON
+        run: |
+          echo "${{ steps.parse.outputs.payload }}"
+
+  start_pull_request:
+    runs-on: ubuntu-latest
+    needs: gather_inputs
+    if: |
+      needs.gather_inputs.outputs.email != '' &&
+      needs.gather_inputs.outputs.type != '' &&
+      needs.gather_inputs.outputs.type != ''
+    steps:
+      - name: Checkout The Github Repository
+        uses: actions/checkout@v2
 
   #     - name: Update config.yml
   #       uses: mikefarah/yq@master
