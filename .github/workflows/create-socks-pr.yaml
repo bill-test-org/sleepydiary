@@ -28,7 +28,7 @@ jobs:
         with:
           issue_id: ${{ github.event.inputs.issue_number }} #${{ github.event.client_payload.issue_number }}
           separator: '###'
-          repository: bill-test-org/t-lint
+          repository: bill-test-org/sleepydiary
           label_marker_start: " "
           label_marker_end: "\\n"
 
