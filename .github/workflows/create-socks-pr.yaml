@@ -28,7 +28,7 @@ jobs:
         with:
           issue_id: ${{ github.event.inputs.issue_number }} #${{ github.event.client_payload.issue_number }}
           separator: '###'
-          repository: department-of-veterans-affairs/va.gov-team
+          repository: bill-test-org/t-lint
           label_marker_start: " "
           label_marker_end: "\\n"
 
