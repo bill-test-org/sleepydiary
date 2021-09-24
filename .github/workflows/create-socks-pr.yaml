@@ -38,6 +38,7 @@ jobs:
           issue_id: ${{ github.event.inputs.issue_number }} #${{ github.event.client_payload.issue_number }}
           repository: ${{ github.event.inputs.repository }}
           separator: '###'
+          github_token: ${{ steps.get_token.outputs.app_token }}
           label_marker_start: ">>"
           label_marker_end: ">>"
 
