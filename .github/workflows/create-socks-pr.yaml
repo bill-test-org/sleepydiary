@@ -13,10 +13,6 @@ on:
   # repository_dispatch:
   #   types: [start-socks-pr]
 
-env:
-  REPO: va.gov-team
-  REO_OWNER: department-of-veterans-affairs
-
 jobs:
   gather_inputs:
     runs-on: ubuntu-latest
