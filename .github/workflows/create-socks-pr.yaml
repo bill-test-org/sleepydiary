@@ -42,9 +42,9 @@ jobs:
           label_marker_start: ">>"
           label_marker_end: ">>"
 
-      - name: Show parsed data JSON
+      - name: Show some JSON
         run: |
-          echo "${{ steps.parse.outputs.payload }}"
+          echo "${{ fromJSON(steps.parse.outputs.payload).COR\ Name }}"
 
   start_pull_request:
     runs-on: ubuntu-latest
