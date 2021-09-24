@@ -33,7 +33,7 @@ jobs:
 
       - name: Run Issue form parser
         id: parse
-        uses: omgitsbillryan/issue-forms-body-parser@27045fc153b0945dbcab41b8a2dd924e4d18c69f
+        uses: omgitsbillryan/issue-forms-body-parser@9d6b22b4d21f0fed48fc815e539152859b3a5fea
         with:
           issue_id: ${{ github.event.inputs.issue_number }} #${{ github.event.client_payload.issue_number }}
           repository: ${{ github.event.inputs.repository }}
