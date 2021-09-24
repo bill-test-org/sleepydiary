@@ -9,7 +9,7 @@ on:
       repository:
         description: 'Repository'
         required: true
-        default: t-lint
+        default: bill-test-org/t-lint
   # repository_dispatch:
   #   types: [start-socks-pr]
 
@@ -33,6 +33,8 @@ jobs:
           APP_PEM: ${{ secrets.GH_APP_PEM }}
           APP_ID: ${{ secrets.GH_APP_ID }}
 
+      - run: echo "repo = ${{ github.event.inputs.repository }}"
+
       - name: Run Issue form parser
         id: parse
         uses: omgitsbillryan/issue-forms-body-parser@659eb2c1b44efdbae04268844802f59924590396
@@ -41,8 +43,8 @@ jobs:
           repository: ${{ github.event.inputs.repository }}
           separator: '###'
           github_token: ${{ secrets.BILL_PAT }} #${{ steps.get_token.outputs.app_token }}
-          label_marker_start: " "
-          label_marker_end: "\\n\\n"
+          label_marker_start: ">>"
+          label_marker_end: ">>"
 
       - name: Show parsed data JSON
         run: |
