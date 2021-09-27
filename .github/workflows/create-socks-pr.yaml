@@ -10,6 +10,10 @@ on:
         description: 'Repository'
         required: true
         default: bill-test-org/t-lint
+      access_type:
+        description: 'Grou'
+        required: true
+        default: bill-test-org/t-lint
   # repository_dispatch:
   #   types: [start-socks-pr]
 
@@ -39,11 +43,11 @@ jobs:
           separator: '###'
           github_token: ${{ steps.get_token.outputs.app_token }}
           label_marker_start: " "
-          label_marker_end: "\n\n"
+          label_marker_end: "\n"
 
-      # - name: Show some JSON
-      #   run: |
-      #     echo -e "${{ steps.parse.outputs.payload }}"
+      - name: Show some JSON
+        run: |
+          echo -e "${{ steps.parse.outputs.payload }}"
 
   start_pull_request:
     runs-on: ubuntu-latest
