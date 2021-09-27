@@ -25,15 +25,6 @@ jobs:
       email: ${{ fromJSON(steps.parse.outputs.payload)['Your Email'] }}
       ssh_key: ${{ fromJSON(steps.parse.outputs.payload)['Public SSH Key'] }}
     steps:
-      - name: Get Token from Github App
-        id: get_token
-        uses: machine-learning-apps/actions-app-token@master
-        with:
-          APP_PEM: ${{ secrets.GH_APP_PEM }}
-          APP_ID: ${{ secrets.GH_APP_ID }}
-
-      - run: echo "repo = ${{ github.event.inputs.repository }}"
-
       - name: Run Issue form parser
         id: parse
         uses: omgitsbillryan/issue-forms-body-parser@doh_dist
@@ -41,13 +32,8 @@ jobs:
           issue_id: ${{ github.event.inputs.issue_number }} #${{ github.event.client_payload.issue_number }}
           repository: ${{ github.event.inputs.repository }}
           separator: '###'
-          github_token: ${{ steps.get_token.outputs.app_token }}
           label_marker_start: " "
           label_marker_end: "\n"
-
-      - name: Show some JSON
-        run: |
-          echo ${{ steps.parse.outputs.payload }} | jq .
 
   start_pull_request:
     runs-on: ubuntu-latest
@@ -62,31 +48,37 @@ jobs:
       - name: Debugging stuff
         run: echo "email=${{ needs.gather_inputs.outputs.email }}, ssh_key=${{ needs.gather_inputs.outputs.ssh_key }}"
 
-  #     - name: Update config.yml
-  #       uses: mikefarah/yq@master
-  #       with:
-  #         cmd: yq e '.key_groups.${{ env.type }} += ["${{ env.email }}"]' --inplace ansible/global/config.yml
-  #       env:
-  #         email: ${{ github.event.client_payload.email }}
-  #         type: ${{ github.event.client_payload.type }}
+      - name: Update config.yml
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq e '.key_groups.${{ env.type }} += ["${{ env.email }}"]' --inplace ansible/global/config.yml
+        env:
+          email: ${{ needs.gather_inputs.outputs.email }}
+          type: ${{ github.event.inputs.access_type }}
 
-  #     - name: Create /authorized_keys SSH Key File
-  #       uses: "finnp/create-file-action@master"
-  #       env:
-  #         FILE_NAME: "ansible/roles/dsva-config/files/authorized_keys/${{ github.event.client_payload.email }}"
-  #         FILE_DATA: "${{ github.event.client_payload.ssh_key }}"
+      - name: Create /authorized_keys SSH Key File
+        uses: "finnp/create-file-action@master"
+        env:
+          FILE_NAME: "ansible/roles/dsva-config/files/authorized_keys/${{ needs.gather_inputs.outputs.email }}"
+          FILE_DATA: "${{ needs.gather_inputs.outputs.ssh_key }}"
 
-  #     - name: Create Pull Request
-  #       id: cpr
-  #       uses: peter-evans/create-pull-request@v3
-  #       with:
-  #         token: ${{ steps.get_token.outputs.app_token }}
-  #         commit-message: New SOCKS ssh key
-  #         branch: "socks-${{ steps.split.outputs._0 }}"
-  #         title: "[Automated SOCKS Access] ${{ steps.split.outputs._0 }}"
-  #         body: |
-  #           An automated SOCKS Access Request
+      # - name: Get Token from Github App
+      #   id: get_token
+      #   uses: machine-learning-apps/actions-app-token@master
+      #   with:
+      #     APP_PEM: ${{ secrets.GH_APP_PEM }}
+      #     APP_ID: ${{ secrets.GH_APP_ID }}
 
-  #           - ${{ github.event.issue.html_url }}
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ steps.get_token.outputs.app_token }}
+          commit-message: New SOCKS ssh key
+          branch: "socks-${{ steps.split.outputs._0 }}"
+          title: "[Automated SOCKS Access] ${{ steps.split.outputs._0 }}"
+          body: |
+            An automated SOCKS Access Request
 
-  #           Triggered by: @${{ github.event.comment.user.login }} in [this comment](${{ github.event.comment.html_url }})
+            - ${{ github.event.issue.html_url }}
+
+            Triggered by: @${{ github.event.comment.user.login }} in [this comment](${{ github.event.comment.html_url }})
