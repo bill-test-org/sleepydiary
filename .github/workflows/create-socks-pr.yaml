@@ -11,9 +11,9 @@ on:
         required: true
         default: bill-test-org/t-lint
       access_type:
-        description: 'Grou'
+        description: 'Name of config.yml access group'
         required: true
-        default: bill-test-org/t-lint
+        default: developers
   # repository_dispatch:
   #   types: [start-socks-pr]
 
