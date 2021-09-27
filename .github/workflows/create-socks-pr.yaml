@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     # if: github.event.client_payload.issue_number != ''
     outputs:
-      email: bill@aol.com # TODO
+      email: ${{ fromJSON(steps.parse.outputs.payload).CORName }}
       type: 'developers' # TODO
       ssh_key: 'ssh-rsa ABCD1234 bill@aol.com' # TODO
     steps:
@@ -56,6 +56,9 @@ jobs:
     steps:
       - name: Checkout The Github Repository
         uses: actions/checkout@v2
+
+      - name: Debugging stuff
+        run: echo "email=${needs.gather_inputs.outputs.email}"
 
   #     - name: Update config.yml
   #       uses: mikefarah/yq@master
