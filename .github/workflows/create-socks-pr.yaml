@@ -22,8 +22,8 @@ jobs:
     runs-on: ubuntu-latest
     # if: github.event.client_payload.issue_number != ''
     outputs:
-      email: ${{ fromJSON(steps.parse.outputs.payload)['Your Email'] }}
-      ssh_key: ${{ fromJSON(steps.parse.outputs.payload)['Public SSH Key'] }}
+      email: ${{ fromJSON(steps.parse.outputs.payload)[' Your Email'] }}
+      ssh_key: ${{ fromJSON(steps.parse.outputs.payload)[' Public SSH Key'] }}
     steps:
       - name: Run Issue form parser
         id: parse
@@ -32,7 +32,7 @@ jobs:
           issue_id: ${{ github.event.inputs.issue_number }} #${{ github.event.client_payload.issue_number }}
           repository: ${{ github.event.inputs.repository }}
           separator: '###'
-          label_marker_start: ""
+          label_marker_start: " "
           label_marker_end: "\n"
 
       - name: Show some JSON
