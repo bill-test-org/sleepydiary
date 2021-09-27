@@ -44,7 +44,7 @@ jobs:
 
       - name: Show some JSON
         run: |
-          echo "${{ fromJSON(steps.parse.outputs.payload) }}"
+          echo "${{ steps.parse.outputs.payload }}"
 
   start_pull_request:
     runs-on: ubuntu-latest
@@ -52,7 +52,7 @@ jobs:
     if: |
       needs.gather_inputs.outputs.email != '' &&
       needs.gather_inputs.outputs.type != '' &&
-      needs.gather_inputs.outputs.type != ''
+      needs.gather_inputs.outputs.ssh_key != ''
     steps:
       - name: Checkout The Github Repository
         uses: actions/checkout@v2
