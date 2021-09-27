@@ -83,7 +83,7 @@ jobs:
         with:
           token: ${{ steps.get_token.outputs.app_token }}
           commit-message: New SOCKS ssh key
-          branch: "socks-${{ needs.gather_inputs.outputs.name }}"
+          branch: "socks-${{ needs.gather_inputs.outputs.email }}"
           title: "[Automated SOCKS Access] ${{ needs.gather_inputs.outputs.name }}"
           body: |
             An automated SOCKS Access Request
