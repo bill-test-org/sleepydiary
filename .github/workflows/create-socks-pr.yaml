@@ -44,7 +44,7 @@ jobs:
 
       - name: Show some JSON
         run: |
-          echo "${{ fromJSON(steps.parse.outputs.payload).COR\ Name }}"
+          echo "${{ fromJSON(steps.parse.outputs.payload) }}"
 
   start_pull_request:
     runs-on: ubuntu-latest
