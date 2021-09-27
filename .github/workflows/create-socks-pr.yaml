@@ -53,8 +53,8 @@ jobs:
 
       - name: Checkout The Github Repository
         uses: actions/checkout@v2
-        # with:
-        #   token: ${{ steps.get_token.outputs.app_token }}
+        with:
+          token: ${{ steps.get_token.outputs.app_token }}
 
       - name: Debugging stuff
         run: echo "email=${{ needs.gather_inputs.outputs.email }}, ssh_key=${{ needs.gather_inputs.outputs.ssh_key }}"
@@ -81,7 +81,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          # token: ${{ steps.get_token.outputs.app_token }}
+          token: ${{ steps.get_token.outputs.app_token }}
           commit-message: New SOCKS ssh key
           branch: "socks-${{ needs.gather_inputs.outputs.email }}"
           title: "[Automated SOCKS Access] ${{ needs.gather_inputs.outputs.name }}"
