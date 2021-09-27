@@ -44,7 +44,7 @@ jobs:
 
       - name: Show some JSON
         run: |
-          echo "${{ steps.parse.outputs.payload }}"
+          echo -e "${{ steps.parse.outputs.payload }}"
 
   start_pull_request:
     runs-on: ubuntu-latest
