@@ -19,7 +19,7 @@ jobs:
     # if: github.event.client_payload.issue_number != ''
     outputs:
       email: ${{ fromJSON(steps.parse.outputs.payload).CORName }}
-      type: 'developers' # TODO
+      type: ${{ fromJSON(steps.parse.outputs.payload).Your\ Name }}
       ssh_key: 'ssh-rsa ABCD1234 bill@aol.com' # TODO
     steps:
       - name: Get Token from Github App
