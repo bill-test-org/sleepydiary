@@ -24,6 +24,7 @@ jobs:
     outputs:
       email: ${{ fromJSON(steps.parse.outputs.payload)[' Your Email'] }}
       ssh_key: ${{ fromJSON(steps.parse.outputs.payload)[' Public SSH Key'] }}
+      name: ${{ fromJSON(steps.parse.outputs.payload)[' Your Name'] }}
     steps:
       - name: Run Issue form parser
         id: parse
@@ -40,6 +41,7 @@ jobs:
     needs: gather_inputs
     if: |
       needs.gather_inputs.outputs.email != '' &&
+      needs.gather_inputs.outputs.name != '' &&
       needs.gather_inputs.outputs.ssh_key != ''
     steps:
       - name: Get Token from Github App
@@ -81,8 +83,8 @@ jobs:
         with:
           token: ${{ steps.get_token.outputs.app_token }}
           commit-message: New SOCKS ssh key
-          branch: "socks-${{ steps.split.outputs._0 }}"
-          title: "[Automated SOCKS Access] ${{ steps.split.outputs._0 }}"
+          branch: "socks-${{ needs.gather_inputs.outputs.name }}"
+          title: "[Automated SOCKS Access] ${{ needs.gather_inputs.outputs.name }}"
           body: |
             An automated SOCKS Access Request
 
