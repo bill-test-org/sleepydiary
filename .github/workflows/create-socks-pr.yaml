@@ -42,8 +42,17 @@ jobs:
       needs.gather_inputs.outputs.email != '' &&
       needs.gather_inputs.outputs.ssh_key != ''
     steps:
+      - name: Get Token from Github App
+        id: get_token
+        uses: machine-learning-apps/actions-app-token@master
+        with:
+          APP_PEM: ${{ secrets.GH_APP_PEM }}
+          APP_ID: ${{ secrets.GH_APP_ID }}
+
       - name: Checkout The Github Repository
         uses: actions/checkout@v2
+        with:
+          token: ${{ steps.get_token.outputs.app_token }}
 
       - name: Debugging stuff
         run: echo "email=${{ needs.gather_inputs.outputs.email }}, ssh_key=${{ needs.gather_inputs.outputs.ssh_key }}"
@@ -62,18 +71,6 @@ jobs:
           FILE_NAME: "ansible/roles/dsva-config/files/authorized_keys/${{ needs.gather_inputs.outputs.email }}"
           FILE_DATA: "${{ needs.gather_inputs.outputs.ssh_key }}"
 
-      # - name: Get Token from Github App
-      #   id: get_token
-      #   uses: machine-learning-apps/actions-app-token@master
-      #   with:
-      #     APP_PEM: ${{ secrets.GH_APP_PEM }}
-      #     APP_ID: ${{ secrets.GH_APP_ID }}
-
-      - name: Dump job context
-        env:
-          JOB_CONTEXT: ${{ toJson(job) }}
-        run: echo "$JOB_CONTEXT"
-
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -91,4 +88,4 @@ jobs:
 
             - https://github.com/${{ github.event.inputs.repository }}/issues/${{ github.event.inputs.issue_number }}
 
-            Triggered by: @${{ github.event.comment.user.login }} in [this comment](${{ github.event.comment.html_url }})
+            Triggered by: @${{ github.actor }} in [Job Run #${{ github.run_number }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
