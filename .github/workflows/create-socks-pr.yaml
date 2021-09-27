@@ -32,7 +32,7 @@ jobs:
           issue_id: ${{ github.event.inputs.issue_number }} #${{ github.event.client_payload.issue_number }}
           repository: ${{ github.event.inputs.repository }}
           separator: '###'
-          label_marker_start: "  "
+          label_marker_start: ""
           label_marker_end: "\n"
 
       - name: Show some JSON
