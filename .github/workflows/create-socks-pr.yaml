@@ -35,10 +35,6 @@ jobs:
           label_marker_start: " "
           label_marker_end: "\n"
 
-      - name: Show some JSON
-        run: |
-          echo ${{ steps.parse.outputs.payload }} | jq .
-
   start_pull_request:
     runs-on: ubuntu-latest
     needs: gather_inputs
