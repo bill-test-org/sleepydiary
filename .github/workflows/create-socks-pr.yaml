@@ -60,7 +60,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Debugging stuff
-        run: echo "email=${{ needs.gather_inputs.outputs.email }}, type=${{ needs.gather_inputs.outputs.ssh_key }}"
+        run: echo "email=${{ needs.gather_inputs.outputs.email }}, ssh_key=${{ needs.gather_inputs.outputs.ssh_key }}"
 
   #     - name: Update config.yml
   #       uses: mikefarah/yq@master
