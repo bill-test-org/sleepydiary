@@ -18,9 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     # if: github.event.client_payload.issue_number != ''
     outputs:
-      email: ${{ fromJSON(steps.parse.outputs.payload).CORName }}
-      type: ${{ fromJSON(steps.parse.outputs.payload)['Your Name'] }}
-      ssh_key: 'ssh-rsa ABCD1234 bill@aol.com' # TODO
+      email: ${{ fromJSON(steps.parse.outputs.payload)['Your Email'] }}
+      ssh_key: ${{ fromJSON(steps.parse.outputs.payload)['Public SSH Key'] }}
     steps:
       - name: Get Token from Github App
         id: get_token
@@ -39,8 +38,8 @@ jobs:
           repository: ${{ github.event.inputs.repository }}
           separator: '###'
           github_token: ${{ steps.get_token.outputs.app_token }}
-          label_marker_start: ">>"
-          label_marker_end: ">>"
+          label_marker_start: " "
+          label_marker_end: "\n\n"
 
       # - name: Show some JSON
       #   run: |
@@ -51,7 +50,6 @@ jobs:
     needs: gather_inputs
     if: |
       needs.gather_inputs.outputs.email != '' &&
-      needs.gather_inputs.outputs.type != '' &&
       needs.gather_inputs.outputs.ssh_key != ''
     steps:
       - name: Checkout The Github Repository
