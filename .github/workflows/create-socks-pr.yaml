@@ -69,6 +69,15 @@ jobs:
       #     APP_PEM: ${{ secrets.GH_APP_PEM }}
       #     APP_ID: ${{ secrets.GH_APP_ID }}
 
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
@@ -79,6 +88,6 @@ jobs:
           body: |
             An automated SOCKS Access Request
 
-            - ${{ github.event.issue.html_url }}
+            - https://github.com/${{ github.event.inputs.repository }}/issues/${{ github.event.inputs.issue_number }}
 
             Triggered by: @${{ github.event.comment.user.login }} in [this comment](${{ github.event.comment.html_url }})
