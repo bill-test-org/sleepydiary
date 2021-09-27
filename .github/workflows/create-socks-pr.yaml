@@ -5,7 +5,7 @@ on:
       issue_number:
         description: 'Issue Number'
         required: true
-        default: 9999
+        default: 42
       repository:
         description: 'Repository'
         required: true
@@ -19,7 +19,7 @@ jobs:
     # if: github.event.client_payload.issue_number != ''
     outputs:
       email: ${{ fromJSON(steps.parse.outputs.payload).CORName }}
-      type: ${{ fromJSON(steps.parse.outputs.payload)["Your Name"] }}
+      type: ${{ fromJSON(steps.parse.outputs.payload)['Your Name'] }}
       ssh_key: 'ssh-rsa ABCD1234 bill@aol.com' # TODO
     steps:
       - name: Get Token from Github App
