@@ -61,6 +61,8 @@ jobs:
 
       - name: Setup yq for use on the command line
         uses: chrisdickinson/setup-yq@latest
+        with:
+          yq-version: 'v4.6.2'
 
       # - name: Update config.yml
       #   uses: mikefarah/yq@master
@@ -75,12 +77,12 @@ jobs:
           email: "${{ needs.gather_inputs.outputs.email }}"
           type: "${{ github.event.inputs.access_type }}"
         run: |
-          yq eval '.key_groups.${{ env.type }} += ["${{ env.email }}"]' --inplace ansible/global/config.yml
-          yq eval '.key_groups.developers' config.yml | sort > tmp_list.txt
-          yq eval '.key_groups.${{ env.type }} = []' --inplace ansible/global/config.yml
+          yq e '.key_groups.${{ env.type }} += ["${{ env.email }}"]' --inplace ansible/global/config.yml
+          yq e '.key_groups.developers' config.yml | sort > tmp_list.txt
+          yq e '.key_groups.${{ env.type }} = []' --inplace ansible/global/config.yml
 
           while read p; do
-            yq eval '.key_groups.${{ env.type }} += ["${line:2}"]' --inplace ansible/global/config.yml
+            yq e '.key_groups.${{ env.type }} += ["${line:2}"]' --inplace ansible/global/config.yml
           done < tmp_list.txt
           rm tmp_list.txt
 
