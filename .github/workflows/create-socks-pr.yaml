@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: Run Issue form parser
         id: parse
-        uses: omgitsbillryan/issue-forms-body-parser@doh_dist
+        uses: omgitsbillryan/issue-forms-body-parser@main
         with:
           issue_id: ${{ github.event.inputs.issue_number }}
           repository: ${{ env.GH_REPO_FOR_ISSUES }}
