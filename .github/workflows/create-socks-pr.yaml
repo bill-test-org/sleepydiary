@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       issue_number:
-        description: 'Issue Number'
+        description: 'va.gov-team GitHub Issue Number'
         required: true
       access_type:
         description: 'config.yml key_group (developers, viewers, platform, etc)'
@@ -11,7 +11,7 @@ on:
         default: developers
 
 env:
-  GH_REPO_FOR_ISSUES: bill-test-org/t-lint
+  GH_REPO_FOR_ISSUES: department-of-veterans-affairs/va.gov-team
 
 jobs:
   gather_inputs:
@@ -79,3 +79,5 @@ jobs:
             - https://github.com/${{ env.GH_REPO_FOR_ISSUES }}/issues/${{ github.event.inputs.issue_number }}
 
             Triggered by: @${{ github.actor }} in [Job Run #${{ github.run_number }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          labels: |
+            automated-socks-request
