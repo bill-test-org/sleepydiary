@@ -75,12 +75,12 @@ jobs:
           email: "${{ needs.gather_inputs.outputs.email }}"
           type: "${{ github.event.inputs.access_type }}"
         run: |
-          yq e '.key_groups.${{ env.type }} += ["${{ env.email }}"]' --inplace ansible/global/config.yml
-          yq e '.key_groups.developers' config.yml | sort > tmp_list.txt
-          yq e '.key_groups.${{ env.type }} = []' --inplace ansible/global/config.yml
+          yq eval '.key_groups.${{ env.type }} += ["${{ env.email }}"]' --inplace ansible/global/config.yml
+          yq eval '.key_groups.developers' config.yml | sort > tmp_list.txt
+          yq eval '.key_groups.${{ env.type }} = []' --inplace ansible/global/config.yml
 
           while read p; do
-            yq e '.key_groups.${{ env.type }} += ["${line:2}"]' --inplace ansible/global/config.yml
+            yq eval '.key_groups.${{ env.type }} += ["${line:2}"]' --inplace ansible/global/config.yml
           done < tmp_list.txt
           rm tmp_list.txt
 
