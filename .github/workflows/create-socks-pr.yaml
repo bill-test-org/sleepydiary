@@ -27,7 +27,7 @@ jobs:
         uses: omgitsbillryan/issue-forms-body-parser@doh_dist
         with:
           issue_id: ${{ github.event.inputs.issue_number }}
-          repository: ${{ GH_REPO_FOR_ISSUES }}
+          repository: ${{ env.GH_REPO_FOR_ISSUES }}
           separator: '###'
           label_marker_start: " "
           label_marker_end: "\n"
@@ -77,6 +77,6 @@ jobs:
           body: |
             An automated SOCKS Access Request
 
-            - https://github.com/${{ GH_REPO_FOR_ISSUES }}/issues/${{ github.event.inputs.issue_number }}
+            - https://github.com/${{ env.GH_REPO_FOR_ISSUES }}/issues/${{ github.event.inputs.issue_number }}
 
             Triggered by: @${{ github.actor }} in [Job Run #${{ github.run_number }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
