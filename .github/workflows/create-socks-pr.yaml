@@ -81,7 +81,7 @@ jobs:
           yq e '.key_groups.developers' config.yml | sort > tmp_list.txt
           yq e '.key_groups.${{ env.type }} = []' --inplace ansible/global/config.yml
 
-          while read p; do
+          while read line; do
             yq e '.key_groups.${{ env.type }} += ["${line:2}"]' --inplace ansible/global/config.yml
           done < tmp_list.txt
           rm tmp_list.txt
