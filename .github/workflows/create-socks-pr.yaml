@@ -56,35 +56,30 @@ jobs:
         with:
           token: ${{ steps.get_token.outputs.app_token }}
 
-      - name: Debugging stuff
-        run: echo "email=${{ needs.gather_inputs.outputs.email }}, ssh_key=${{ needs.gather_inputs.outputs.ssh_key }}"
+      # - name: Debugging stuff
+      #   run: echo "email=${{ needs.gather_inputs.outputs.email }}, ssh_key=${{ needs.gather_inputs.outputs.ssh_key }}"
 
-      - name: Setup yq for use on the command line
-        uses: chrisdickinson/setup-yq@latest
+      - name: Update config.yml
+        uses: mikefarah/yq@master
         with:
-          yq-version: 'v4.6.2'
-
-      # - name: Update config.yml
-      #   uses: mikefarah/yq@master
-      #   with:
-      #     cmd: yq e '.key_groups.${{ env.type }} += ["${{ env.email }}"]' --inplace ansible/global/config.yml
-      #   env:
-      #     email: ${{ needs.gather_inputs.outputs.email }}
-      #     type: ${{ github.event.inputs.access_type }}
-
-      - name: Alphabetize SSH Key Names Within config.yml
+          cmd: yq e '.key_groups.${{ env.type }} += ["${{ env.email }}"]' --inplace ansible/global/config.yml
         env:
-          email: "${{ needs.gather_inputs.outputs.email }}"
-          type: "${{ github.event.inputs.access_type }}"
-        run: |
-          yq e '.key_groups.${{ env.type }} += ["${{ env.email }}"]' --inplace ansible/global/config.yml
-          yq e '.key_groups.developers' config.yml | sort > tmp_list.txt
-          yq e '.key_groups.${{ env.type }} = []' --inplace ansible/global/config.yml
+          email: ${{ needs.gather_inputs.outputs.email }}
+          type: ${{ github.event.inputs.access_type }}
 
-          while read line; do
-            yq e '.key_groups.${{ env.type }} += ["${line:2}"]' --inplace ansible/global/config.yml
-          done < tmp_list.txt
-          rm tmp_list.txt
+      # - name: Alphabetize SSH Key Names Within config.yml
+      #   env:
+      #     email: "${{ needs.gather_inputs.outputs.email }}"
+      #     type: "${{ github.event.inputs.access_type }}"
+      #   run: |
+      #     yq e '.key_groups.${{ env.type }} += ["${{ env.email }}"]' --inplace ansible/global/config.yml
+      #     yq e '.key_groups.developers' config.yml | sort > tmp_list.txt
+      #     yq e '.key_groups.${{ env.type }} = []' --inplace ansible/global/config.yml
+
+      #     while read line; do
+      #       yq e '.key_groups.${{ env.type }} += ["${line:2}"]' --inplace ansible/global/config.yml
+      #     done < tmp_list.txt
+      #     rm tmp_list.txt
 
       - name: Create /authorized_keys SSH Key File
         uses: "finnp/create-file-action@master"
@@ -92,10 +87,10 @@ jobs:
           FILE_NAME: "ansible/roles/dsva-config/files/authorized_keys/${{ needs.gather_inputs.outputs.email }}"
           FILE_DATA: "${{ needs.gather_inputs.outputs.ssh_key }}"
 
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+      # - name: Dump GitHub context
+      #   env:
+      #     GITHUB_CONTEXT: ${{ toJson(github) }}
+      #   run: echo "$GITHUB_CONTEXT"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
