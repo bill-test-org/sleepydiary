@@ -1,4 +1,4 @@
-name: Start SOCKS Access Pull Request
+name: Start SOCKS Access Pull Request from GH Issue
 on:
   workflow_dispatch:
     inputs:
@@ -6,21 +6,17 @@ on:
         description: 'Issue Number'
         required: true
         default: 42
-      repository:
-        description: 'Repository'
-        required: true
-        default: bill-test-org/t-lint
       access_type:
-        description: 'Name of config.yml access group'
+        description: 'config.yml key_group (developers, viewers, platform, etc)'
         required: true
         default: developers
-  # repository_dispatch:
-  #   types: [start-socks-pr]
+
+env:
+  GH_REPO_FOR_ISSUES: bill-test-org/t-lint
 
 jobs:
   gather_inputs:
     runs-on: ubuntu-latest
-    # if: github.event.client_payload.issue_number != ''
     outputs:
       email: ${{ fromJSON(steps.parse.outputs.payload)[' Your Email'] }}
       ssh_key: ${{ fromJSON(steps.parse.outputs.payload)[' Public SSH Key'] }}
@@ -30,8 +26,8 @@ jobs:
         id: parse
         uses: omgitsbillryan/issue-forms-body-parser@doh_dist
         with:
-          issue_id: ${{ github.event.inputs.issue_number }} #${{ github.event.client_payload.issue_number }}
-          repository: ${{ github.event.inputs.repository }}
+          issue_id: ${{ github.event.inputs.issue_number }}
+          repository: ${{ GH_REPO_FOR_ISSUES }}
           separator: '###'
           label_marker_start: " "
           label_marker_end: "\n"
@@ -56,9 +52,7 @@ jobs:
         with:
           token: ${{ steps.get_token.outputs.app_token }}
 
-      # - name: Debugging stuff
-      #   run: echo "email=${{ needs.gather_inputs.outputs.email }}, ssh_key=${{ needs.gather_inputs.outputs.ssh_key }}"
-
+      # TODO - would be nice to alphabetize key name in YAML array
       - name: Update config.yml
         uses: mikefarah/yq@master
         with:
@@ -67,30 +61,11 @@ jobs:
           email: ${{ needs.gather_inputs.outputs.email }}
           type: ${{ github.event.inputs.access_type }}
 
-      # - name: Alphabetize SSH Key Names Within config.yml
-      #   env:
-      #     email: "${{ needs.gather_inputs.outputs.email }}"
-      #     type: "${{ github.event.inputs.access_type }}"
-      #   run: |
-      #     yq e '.key_groups.${{ env.type }} += ["${{ env.email }}"]' --inplace ansible/global/config.yml
-      #     yq e '.key_groups.developers' config.yml | sort > tmp_list.txt
-      #     yq e '.key_groups.${{ env.type }} = []' --inplace ansible/global/config.yml
-
-      #     while read line; do
-      #       yq e '.key_groups.${{ env.type }} += ["${line:2}"]' --inplace ansible/global/config.yml
-      #     done < tmp_list.txt
-      #     rm tmp_list.txt
-
       - name: Create /authorized_keys SSH Key File
-        uses: "finnp/create-file-action@master"
+        uses: finnp/create-file-action@master
         env:
           FILE_NAME: "ansible/roles/dsva-config/files/authorized_keys/${{ needs.gather_inputs.outputs.email }}"
           FILE_DATA: "${{ needs.gather_inputs.outputs.ssh_key }}"
-
-      # - name: Dump GitHub context
-      #   env:
-      #     GITHUB_CONTEXT: ${{ toJson(github) }}
-      #   run: echo "$GITHUB_CONTEXT"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
@@ -102,6 +77,6 @@ jobs:
           body: |
             An automated SOCKS Access Request
 
-            - https://github.com/${{ github.event.inputs.repository }}/issues/${{ github.event.inputs.issue_number }}
+            - https://github.com/${{ GH_REPO_FOR_ISSUES }}/issues/${{ github.event.inputs.issue_number }}
 
             Triggered by: @${{ github.actor }} in [Job Run #${{ github.run_number }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
