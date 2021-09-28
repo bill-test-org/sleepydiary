@@ -30,6 +30,8 @@ jobs:
           separator: '###'
           label_marker_start: " "
           label_marker_end: "\n"
+      - name: Debug
+        run: echo "${{ steps.parse.outputs.payload }}"
 
   start_pull_request:
     runs-on: ubuntu-latest
