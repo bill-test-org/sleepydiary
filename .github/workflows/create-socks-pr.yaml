@@ -5,7 +5,6 @@ on:
       issue_number:
         description: 'Issue Number'
         required: true
-        default: 42
       access_type:
         description: 'config.yml key_group (developers, viewers, platform, etc)'
         required: true
