@@ -1,0 +1,14 @@
+---
+name: Build / Push Container
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    uses: bill-test-org/t-lint/.github/workflows/say-hello.yml@omgitsbillryan-patch-1
+    with:
+      your_name: Bill
